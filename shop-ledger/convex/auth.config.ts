@@ -1,8 +1,8 @@
 export default {
-  providers: [
-    {
-      domain: process.env.CONVEX_SITE_URL,
-      applicationID: "convex",
-    },
-  ],
-};
+    providers: [
+      {
+        domain: "https://aware-redfish-6.clerk.accounts.dev", 
+        applicationID: "convex",
+      },
+    ],
+  };

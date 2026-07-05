@@ -1,23 +1,13 @@
-import {
-    convexAuthNextjsMiddleware,
-    createRouteMatcher,
-    nextjsMiddlewareRedirect,
-  } from "@convex-dev/auth/nextjs/server";
-  
-  const isSignInPage = createRouteMatcher(["/signin"]);
-  const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
-  
-  export default convexAuthNextjsMiddleware(async (request, { convexAuth }) => {
-    const authenticated = await convexAuth.isAuthenticated();
-  
-    if (isSignInPage(request) && authenticated) {
-      return nextjsMiddlewareRedirect(request, "/dashboard");
-    }
-    if (isProtectedRoute(request) && !authenticated) {
-      return nextjsMiddlewareRedirect(request, "/signin");
-    }
-  });
-  
-  export const config = {
-    matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
-  };
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+
+const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (isProtectedRoute(req)) {
+    await auth.protect();
+  }
+});
+
+export const config = {
+  matcher: ["/((?!_next|.*\\..*).*)", "/(api|trpc)(.*)"],
+};
