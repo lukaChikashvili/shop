@@ -32,7 +32,7 @@ export function Header() {
         {isSignedIn ? (
           <div className="flex items-center gap-3">
            <Link
-            href="/dashboard"
+            href="/create-shop"
             className="flex items-center gap-2 px-4 py-2 rounded-full bg-accent-light text-accent font-medium text-sm border border-accent/20 hover:bg-accent hover:text-white hover:border-accent transition-colors"
                 >
                <Plus size={16} strokeWidth={2.5} />
