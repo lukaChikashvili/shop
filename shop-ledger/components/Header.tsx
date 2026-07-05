@@ -1,19 +1,19 @@
 "use client";
 
 import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
+import { useQuery } from "convex/react";
 import { LayoutDashboard, Plus } from "lucide-react";
 import Link from "next/link";
+import { api } from "@/convex/_generated/api";
 
 export function Header() {
   const { isSignedIn, isLoaded } = useUser();
+  const shop = useQuery(api.shop.getMyShop, isSignedIn ? {} : "skip");
 
   if (!isLoaded) return null;
 
-
-
   return (
     <header className="flex items-center justify-between px-12 py-5 bg-background border-b border-border">
-
       <Link href="/" className="font-bold text-2xl flex items-center gap-2 text-ink-primary">
         <div className="bg-accent p-1.5 rounded-lg">
           <div className="w-3 h-3 bg-white rounded-sm" />
@@ -31,13 +31,26 @@ export function Header() {
       <div className="flex items-center gap-4">
         {isSignedIn ? (
           <div className="flex items-center gap-3">
-           <Link
-            href="/create-shop"
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-accent-light text-accent font-medium text-sm border border-accent/20 hover:bg-accent hover:text-white hover:border-accent transition-colors"
-                >
-               <Plus size={16} strokeWidth={2.5} />
+            {shop === undefined ? (
+             
+              <div className="w-[150px] h-9 rounded-full bg-accent-light/50 animate-pulse" />
+            ) : shop ? (
+              <Link
+                href={`/dashboard/${shop._id}`}
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-accent-light text-accent font-medium text-sm border border-accent/20 hover:bg-accent hover:text-white hover:border-accent transition-colors"
+              >
+                <LayoutDashboard size={16} strokeWidth={2.5} />
+                ჩემი მაღაზია
+              </Link>
+            ) : (
+              <Link
+                href="/create-shop"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-accent-light text-accent font-medium text-sm border border-accent/20 hover:bg-accent hover:text-white hover:border-accent transition-colors"
+              >
+                <Plus size={16} strokeWidth={2.5} />
                 შექმენი მაღაზია
-           </Link>
+              </Link>
+            )}
             <UserButton />
           </div>
         ) : (

@@ -1,5 +1,5 @@
 
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 function slugify(name: string) {
@@ -83,3 +83,17 @@ export const createShop = mutation({
 });
 
 
+export const getMyShop = query({
+    args: {},
+    handler: async (ctx) => {
+      const identity = await ctx.auth.getUserIdentity();
+      if (!identity) return null;
+  
+      const shop = await ctx.db
+        .query("shops")
+        .withIndex("by_owner", (q) => q.eq("ownerId", identity.subject))
+        .unique();
+  
+      return shop;
+    },
+  });

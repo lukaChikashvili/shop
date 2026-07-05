@@ -24,4 +24,28 @@ export default defineSchema({
   })
     .index("by_owner", ["ownerId"])
     .index("by_slug", ["slug"]),
+
+
+
+    customers: defineTable({
+        shopId: v.id("shops"),
+        name: v.string(),
+        phone: v.optional(v.string()),
+        balance: v.number(), 
+        createdAt: v.number(),
+      })
+        .index("by_shop", ["shopId"])
+        .index("by_shop_and_balance", ["shopId", "balance"]),
+
+        transactions: defineTable({
+            shopId: v.id("shops"),
+            customerId: v.optional(v.id("customers")), 
+            type: v.union(v.literal("credit_given"), v.literal("payment_received"), v.literal("sale")),
+            amount: v.number(), 
+            note: v.optional(v.string()),
+            createdAt: v.number(),
+          })
+            .index("by_shop", ["shopId"])
+            .index("by_shop_and_date", ["shopId", "createdAt"])
+            .index("by_customer", ["customerId"]),
 });
