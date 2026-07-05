@@ -72,7 +72,7 @@ export default function DashboardPage() {
           />
           <StatCard
             icon={<TrendingDown size={20} />}
-            label="სულ კრედიტი"
+            label="ბალანსი"
             value={`${stats.totalCredit.toFixed(2)} ${shop.currency}`}
             tone="good"
           />
