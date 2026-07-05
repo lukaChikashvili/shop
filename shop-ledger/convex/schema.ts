@@ -1,8 +1,6 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
-
-
 export default defineSchema({
   shops: defineTable({
     ownerId: v.string(),
@@ -17,14 +15,13 @@ export default defineSchema({
       v.literal("other")
     ),
     city: v.string(),
-    currency: v.string(), 
-    phone: v.optional(v.string()),
-    address: v.optional(v.string()),
-    isActive: v.boolean(), 
+    phone: v.string(),
+    currency: v.union(v.literal("GEL"), v.literal("USD"), v.literal("EUR")),
+    isActive: v.boolean(),
     plan: v.union(v.literal("free"), v.literal("pro")),
     createdAt: v.number(),
     updatedAt: v.number(),
   })
     .index("by_owner", ["ownerId"])
-    .index("by_slug", ["slug"]), 
+    .index("by_slug", ["slug"]),
 });
