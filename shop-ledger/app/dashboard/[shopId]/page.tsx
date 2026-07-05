@@ -5,7 +5,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { Users, TrendingUp, TrendingDown, Plus, Receipt } from "lucide-react";
+import { Users, TrendingUp, TrendingDown, Plus, Receipt, ChevronRight } from "lucide-react";
 
 export default function DashboardPage() {
   const params = useParams();
@@ -43,24 +43,30 @@ export default function DashboardPage() {
 
   const { shop, stats, recentTransactions, topDebtors } = data;
 
-
-
   return (
     <main className="min-h-screen bg-[#F7F4EC] px-6 py-8 md:px-12">
       <div className="max-w-6xl mx-auto">
-      
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-bold text-[#1C2431]">{shop.name}</h1>
             <p className="text-[#4A5261] text-sm">{shop.city}</p>
           </div>
-          <Link
-            href={`/dashboard/${shopId}/transactions/new`}
-            className="flex items-center gap-2 bg-[#2F5D3A] text-white px-5 py-2.5 rounded-full font-medium text-sm hover:bg-[#254A2F] transition"
-          >
-            <Plus size={16} strokeWidth={2.5} />
-            ტრანზაქციის დამატება
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href={`/dashboard/${shopId}/customers`}
+              className="flex items-center gap-2 bg-white text-[#1C2431] border border-[#DCD7C9] px-4 py-2.5 rounded-full font-medium text-sm hover:bg-[#F0EDE3] transition"
+            >
+              <Users size={16} strokeWidth={2.5} />
+              მომხმარებლები
+            </Link>
+            <Link
+              href={`/dashboard/${shopId}/transactions/new`}
+              className="flex items-center gap-2 bg-[#2F5D3A] text-white px-5 py-2.5 rounded-full font-medium text-sm hover:bg-[#254A2F] transition"
+            >
+              <Plus size={16} strokeWidth={2.5} />
+              ტრანზაქციის დამატება
+            </Link>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
@@ -85,9 +91,17 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          
           <section className="bg-white rounded-2xl border border-[#E8E3D6] p-6">
-            <h2 className="font-semibold text-[#1C2431] mb-4">ყველაზე დიდი დავალიანება</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-semibold text-[#1C2431]">ყველაზე დიდი დავალიანება</h2>
+              <Link
+                href={`/dashboard/${shopId}/customers`}
+                className="flex items-center gap-0.5 text-xs font-medium text-[#2F5D3A] hover:text-[#254A2F] transition"
+              >
+                ყველას ნახვა
+                <ChevronRight size={14} />
+              </Link>
+            </div>
             {topDebtors.length === 0 ? (
               <p className="text-[#4A5261] text-sm">დავალიანება არ არის</p>
             ) : (
@@ -104,7 +118,6 @@ export default function DashboardPage() {
             )}
           </section>
 
-         
           <section className="bg-white rounded-2xl border border-[#E8E3D6] p-6">
             <h2 className="font-semibold text-[#1C2431] mb-4">ბოლო ტრანზაქციები</h2>
             {recentTransactions.length === 0 ? (

@@ -68,3 +68,24 @@ export const listCustomers = query({
     return filtered.sort((a, b) => b.balance - a.balance);
   },
 });
+
+
+export const getCustomerDetail = query({
+  args: { shopId: v.id("shops"), customerId: v.id("customers") },
+  handler: async (ctx, args) => {
+    await assertShopOwner(ctx, args.shopId);
+
+    const customer = await ctx.db.get(args.customerId);
+    if (!customer || customer.shopId !== args.shopId) {
+      throw new Error("Forbidden");
+    }
+
+    const transactions = await ctx.db
+      .query("transactions")
+      .withIndex("by_customer", (q) => q.eq("customerId", args.customerId))
+      .order("desc")
+      .collect();
+
+    return { customer, transactions };
+  },
+});
