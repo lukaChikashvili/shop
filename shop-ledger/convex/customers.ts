@@ -47,3 +47,24 @@ export const createCustomer = mutation({
     return customerId;
   },
 });
+
+
+export const listCustomers = query({
+  args: { shopId: v.id("shops"), searchTerm: v.optional(v.string()) },
+  handler: async (ctx, args) => {
+    await assertShopOwner(ctx, args.shopId);
+
+    const all = await ctx.db
+      .query("customers")
+      .withIndex("by_shop", (q) => q.eq("shopId", args.shopId))
+      .collect();
+
+    const term = args.searchTerm?.trim().toLowerCase();
+    const filtered = term
+      ? all.filter((c) => c.name.toLowerCase().includes(term))
+      : all;
+
+   
+    return filtered.sort((a, b) => b.balance - a.balance);
+  },
+});
