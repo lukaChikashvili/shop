@@ -5,7 +5,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { Users, TrendingUp, TrendingDown, Plus, Receipt, ChevronRight } from "lucide-react";
+import { Users, TrendingUp, TrendingDown, Plus, Receipt, ChevronRight, Wallet } from "lucide-react";
 
 export default function DashboardPage() {
   const params = useParams();
@@ -70,25 +70,26 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <StatCard
-            icon={<TrendingUp size={20} />}
-            label="სულ გმართებთ"
-            value={`${stats.totalOwed.toFixed(2)} ${shop.currency}`}
-            tone="warn"
-          />
-          <StatCard
-            icon={<TrendingDown size={20} />}
-            label="ბალანსი"
-            value={`${stats.totalCredit.toFixed(2)} ${shop.currency}`}
-            tone="good"
-          />
-          <StatCard
-            icon={<Users size={20} />}
-            label="მომხმარებლები"
-            value={stats.customerCount.toString()}
-            tone="neutral"
-          />
-        </div>
+  <StatCard
+    icon={<Wallet size={20} />}
+    label="დღეს მიღებული"
+    value={`${stats.totalReceivedToday.toFixed(2)} ${shop.currency}`}
+    tone="good"
+  />
+  <StatCard
+    icon={<TrendingUp size={20} />}
+    label="სულ გმართებთ"
+    value={`${stats.totalOwed.toFixed(2)} ${shop.currency}`}
+    tone="warn"
+  />
+
+  <StatCard
+    icon={<Users size={20} />}
+    label="მომხმარებლები"
+    value={stats.customerCount.toString()}
+    tone="neutral"
+  />
+</div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <section className="bg-white rounded-2xl border border-[#E8E3D6] p-6">
@@ -174,7 +175,7 @@ function StatCard({
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-[#E8E3D6] p-5 flex items-center gap-4">
+    <div className="bg-white rounded-2xl border border-[#E8E3D6] p-6 flex items-center gap-4">
       <div className={`p-3 rounded-xl ${toneStyles[tone]}`}>{icon}</div>
       <div>
         <p className="text-[#4A5261] text-xs font-medium">{label}</p>
