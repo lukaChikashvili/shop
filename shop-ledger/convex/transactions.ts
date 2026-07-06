@@ -111,3 +111,32 @@ export const updateTransaction = mutation({
     return args.transactionId;
   },
 });
+
+
+export const deleteTransaction = mutation({
+  args: {
+    shopId: v.id("shops"),
+    transactionId: v.id("transactions"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+
+    const shop = await ctx.db.get(args.shopId);
+    if (!shop || shop.ownerId !== identity.subject) throw new Error("Forbidden");
+
+    const existing = await ctx.db.get(args.transactionId);
+    if (!existing || existing.shopId !== args.shopId) throw new Error("Forbidden");
+
+
+    if (existing.customerId) {
+      const customer = await ctx.db.get(existing.customerId);
+      if (customer) {
+        const oldDelta = balanceDelta(existing.type, existing.amount);
+        await ctx.db.patch(customer._id, { balance: customer.balance - oldDelta });
+      }
+    }
+
+    await ctx.db.delete(args.transactionId);
+  },
+});

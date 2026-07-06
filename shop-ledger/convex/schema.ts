@@ -48,4 +48,15 @@ export default defineSchema({
             .index("by_shop", ["shopId"])
             .index("by_shop_and_date", ["shopId", "createdAt"])
             .index("by_customer", ["customerId"]),
+
+
+            products: defineTable({
+              shopId: v.id("shops"),
+              barcode: v.string(),
+              name: v.string(),
+              price: v.optional(v.number()),
+              createdAt: v.number(),
+            })
+              .index("by_shop", ["shopId"])
+              .index("by_shop_and_barcode", ["shopId", "barcode"]),
 });
