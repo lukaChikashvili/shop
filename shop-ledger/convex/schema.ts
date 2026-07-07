@@ -24,4 +24,41 @@ export default defineSchema({
     .index("by_room", ["roomId"])
     .index("by_room_active", ["roomId", "leftAt"])
     .index("by_user", ["userId"]),
+
+    userProfiles: defineTable({
+      userId: v.string(), 
+      nativeLanguage: v.optional(v.string()),
+      learningLanguages: v.array(
+        v.object({
+          language: v.string(),
+          level: v.union(
+            v.literal("beginner"),
+            v.literal("intermediate"),
+            v.literal("advanced")
+          ),
+        })
+      ),
+      goal: v.optional(v.string()), 
+      updatedAt: v.number(),
+    }).index("by_user", ["userId"]),
+
+
+    connections: defineTable({
+      userId: v.string(),
+      partnerId: v.string(),
+      partnerName: v.string(),
+      sessionsCount: v.number(),
+      lastPracticedAt: v.number(),
+      favorited: v.boolean(),
+    })
+      .index("by_user", ["userId"])
+      .index("by_user_partner", ["userId", "partnerId"]),
+
+
+
+
+
+
+
+
 });
