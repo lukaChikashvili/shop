@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as dashboard from "../dashboard.js";
 import type * as livekit from "../livekit.js";
 import type * as rooms from "../rooms.js";
 
@@ -18,6 +19,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  dashboard: typeof dashboard;
   livekit: typeof livekit;
   rooms: typeof rooms;
 }>;

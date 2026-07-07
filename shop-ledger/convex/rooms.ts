@@ -93,7 +93,7 @@ export const listRoomsByLanguage = query({
       if (!identity) throw new Error("Not authenticated");
    
       const room = await ctx.db.get(roomId);
-      
+
       if (!room) throw new Error("Room not found");
       if (room.status === "ended") throw new Error("Room has ended");
    
@@ -158,3 +158,50 @@ export const listRoomsByLanguage = query({
       }
     },
   });
+
+
+
+  async function recordConnectionsForRoom(ctx: any, roomId: any) {
+    const allParticipants = await ctx.db
+      .query("participants")
+      .withIndex("by_room", (q: any) => q.eq("roomId", roomId))
+      .collect();
+   
+
+    const uniqueByUser = new Map<string, { userId: string; userName: string }>();
+    for (const p of allParticipants) {
+      uniqueByUser.set(p.userId, { userId: p.userId, userName: p.userName });
+    }
+    const people = Array.from(uniqueByUser.values());
+   
+    for (const person of people) {
+      for (const partner of people) {
+        if (person.userId === partner.userId) continue;
+   
+        const existing = await ctx.db
+          .query("connections")
+          .withIndex("by_user_partner", (q: any) =>
+            q.eq("userId", person.userId).eq("partnerId", partner.userId)
+          )
+          .first();
+   
+        if (existing) {
+          await ctx.db.patch(existing._id, {
+            sessionsCount: existing.sessionsCount + 1,
+            lastPracticedAt: Date.now(),
+            partnerName: partner.userName, 
+          });
+        } else {
+          await ctx.db.insert("connections", {
+            userId: person.userId,
+            partnerId: partner.userId,
+            partnerName: partner.userName,
+            sessionsCount: 1,
+            lastPracticedAt: Date.now(),
+            favorited: false,
+          });
+        }
+      }
+    }
+  }
+   
