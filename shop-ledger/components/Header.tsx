@@ -4,11 +4,11 @@ import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { LayoutDashboard, Plus } from "lucide-react";
 import Link from "next/link";
-import { api } from "@/convex/_generated/api";
+
 
 export function Header() {
   const { isSignedIn, isLoaded } = useUser();
-  const shop = useQuery(api.shop.getMyShop, isSignedIn ? {} : "skip");
+
 
   if (!isLoaded) return null;
 

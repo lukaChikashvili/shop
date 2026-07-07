@@ -2,61 +2,26 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  shops: defineTable({
-    ownerId: v.string(),
-    name: v.string(),
-    slug: v.string(),
-    category: v.union(
-      v.literal("clothing"),
-      v.literal("electronics"),
-      v.literal("food"),
-      v.literal("pharmacy"),
-      v.literal("hardware"),
-      v.literal("other")
-    ),
-    city: v.string(),
-    phone: v.string(),
-    currency: v.union(v.literal("GEL"), v.literal("USD"), v.literal("EUR")),
-    isActive: v.boolean(),
-    plan: v.union(v.literal("free"), v.literal("pro")),
+  rooms: defineTable({
+    language: v.string(), 
+    hostId: v.string(), 
+    hostName: v.string(),
+    status: v.union(v.literal("waiting"), v.literal("active"), v.literal("ended")),
+    maxParticipants: v.number(), 
     createdAt: v.number(),
-    updatedAt: v.number(),
+    endedAt: v.optional(v.number()),
   })
-    .index("by_owner", ["ownerId"])
-    .index("by_slug", ["slug"]),
+    .index("by_language_status", ["language", "status"])
+    .index("by_status", ["status"]),
 
-
-
-    customers: defineTable({
-        shopId: v.id("shops"),
-        name: v.string(),
-        phone: v.optional(v.string()),
-        balance: v.number(), 
-        createdAt: v.number(),
-      })
-        .index("by_shop", ["shopId"])
-        .index("by_shop_and_balance", ["shopId", "balance"]),
-
-        transactions: defineTable({
-            shopId: v.id("shops"),
-            customerId: v.optional(v.id("customers")), 
-            type: v.union(v.literal("credit_given"), v.literal("payment_received"), v.literal("sale")),
-            amount: v.number(), 
-            note: v.optional(v.string()),
-            createdAt: v.number(),
-          })
-            .index("by_shop", ["shopId"])
-            .index("by_shop_and_date", ["shopId", "createdAt"])
-            .index("by_customer", ["customerId"]),
-
-
-            products: defineTable({
-              shopId: v.id("shops"),
-              barcode: v.string(),
-              name: v.string(),
-              price: v.optional(v.number()),
-              createdAt: v.number(),
-            })
-              .index("by_shop", ["shopId"])
-              .index("by_shop_and_barcode", ["shopId", "barcode"]),
+  participants: defineTable({
+    roomId: v.id("rooms"),
+    userId: v.string(), 
+    userName: v.string(),
+    joinedAt: v.number(),
+    leftAt: v.optional(v.number()),
+  })
+    .index("by_room", ["roomId"])
+    .index("by_room_active", ["roomId", "leftAt"])
+    .index("by_user", ["userId"]),
 });
