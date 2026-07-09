@@ -98,14 +98,28 @@ export const getProfile = query({
   args: {},
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
+    if (!identity) return null;
 
-    return await ctx.db
+    const profile = await ctx.db
       .query("userProfiles")
       .withIndex("by_user", (q) => q.eq("userId", identity.subject))
-      .first();
+      .unique();
+
+    if (!profile) return null;
+
+    return {
+      ...profile,
+      profileImageUrl: profile.profileImageId
+        ? await ctx.storage.getUrl(profile.profileImageId)
+        : null,
+      bannerImageUrl: profile.bannerImageId
+        ? await ctx.storage.getUrl(profile.bannerImageId)
+        : null,
+    };
   },
 });
+
+
 
 export const upsertProfile = mutation({
   args: {
@@ -121,6 +135,8 @@ export const upsertProfile = mutation({
       })
     ),
     goal: v.optional(v.string()),
+    bio: v.optional(v.string()),
+    hobbies: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -129,16 +145,14 @@ export const upsertProfile = mutation({
     const existing = await ctx.db
       .query("userProfiles")
       .withIndex("by_user", (q) => q.eq("userId", identity.subject))
-      .first();
+      .unique();
+
+    const payload = { ...args, updatedAt: Date.now() };
 
     if (existing) {
-      await ctx.db.patch(existing._id, { ...args, updatedAt: Date.now() });
+      await ctx.db.patch(existing._id, payload);
     } else {
-      await ctx.db.insert("userProfiles", {
-        userId: identity.subject,
-        ...args,
-        updatedAt: Date.now(),
-      });
+      await ctx.db.insert("userProfiles", { userId: identity.subject, ...payload });
     }
   },
 });
@@ -176,5 +190,38 @@ export const toggleFavoriteConnection = mutation({
     }
 
     await ctx.db.patch(connectionId, { favorited: !connection.favorited });
+  },
+});
+
+
+
+export const syncProfileFromClerk = mutation({
+  args: {
+    displayName: v.string(),
+    clerkImageUrl: v.optional(v.string()),
+  },
+  handler: async (ctx, { displayName, clerkImageUrl }) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not authenticated");
+
+    const existing = await ctx.db
+      .query("userProfiles")
+      .withIndex("by_user", (q) => q.eq("userId", identity.subject))
+      .unique();
+
+    if (existing) {
+     
+      if (existing.displayName !== displayName || existing.clerkImageUrl !== clerkImageUrl) {
+        await ctx.db.patch(existing._id, { displayName, clerkImageUrl });
+      }
+    } else {
+      await ctx.db.insert("userProfiles", {
+        userId: identity.subject,
+        displayName,
+        clerkImageUrl,
+        learningLanguages: [],
+        updatedAt: Date.now(),
+      });
+    }
   },
 });

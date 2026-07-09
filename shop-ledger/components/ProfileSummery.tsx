@@ -4,10 +4,13 @@ import { useState } from "react";
 import { useMutation, useQuery, useConvexAuth } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Pencil, Check, Plus, X } from "lucide-react";
+import { HobbyInput } from "./HobbyInput";
 
 const LANGUAGES = ["spanish", "english", "chinese", "georgian", "french"];
 const LEVELS = ["beginner", "intermediate", "advanced"] as const;
 type Level = (typeof LEVELS)[number];
+
+
 
 const LEVEL_LABELS: Record<Level, string> = {
   beginner: "დამწყები",
@@ -19,6 +22,8 @@ export function ProfileSummary() {
   const { isAuthenticated } = useConvexAuth();
   const profile = useQuery(api.dashboard.getProfile, isAuthenticated ? {} : "skip");
   const upsertProfile = useMutation(api.dashboard.upsertProfile);
+  const [bio, setBio] = useState("");
+const [hobbies, setHobbies] = useState<string[]>([]);
 
   const [editing, setEditing] = useState(false);
   const [nativeLanguage, setNativeLanguage] = useState("");
@@ -31,6 +36,8 @@ export function ProfileSummary() {
     setNativeLanguage(profile?.nativeLanguage ?? "");
     setLearning(profile?.learningLanguages ?? []);
     setGoal(profile?.goal ?? "");
+    setBio(profile?.bio ?? "");
+    setHobbies(profile?.hobbies ?? []);
     setEditing(true);
   }
 
@@ -56,6 +63,8 @@ export function ProfileSummary() {
       nativeLanguage: nativeLanguage || undefined,
       learningLanguages: learning,
       goal: goal || undefined,
+      bio: bio || undefined,
+      hobbies,
     });
     setEditing(false);
   }
@@ -214,6 +223,28 @@ export function ProfileSummary() {
           className="mt-1 w-full rounded-lg border border-white/60 bg-white/40 px-3 py-2 text-sm outline-none backdrop-blur-sm focus:border-[#1E3A8A]/40"
         />
       </div>
+
+      <div className="mt-4">
+  <label className="block text-xs font-medium text-[#4A6B8C]">
+    ჩემ შესახებ
+  </label>
+  <textarea
+    value={bio}
+    onChange={(e) => setBio(e.target.value)}
+    rows={3}
+    placeholder="მოკლედ მოგვიყევი შენ შესახებ..."
+    className="mt-1 w-full resize-none rounded-lg border border-white/60 bg-white/40 px-3 py-2 text-sm outline-none backdrop-blur-sm focus:border-[#1E3A8A]/40"
+  />
+</div>
+
+<div className="mt-4">
+  <label className="block text-xs font-medium text-[#4A6B8C]">
+    ჰობები
+  </label>
+  <div className="mt-1">
+    <HobbyInput hobbies={hobbies} onChange={setHobbies} />
+  </div>
+</div>
 
       <div className="mt-5 flex items-center gap-2">
         <button

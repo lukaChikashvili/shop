@@ -8,8 +8,10 @@
  * @module
  */
 
+import type * as community from "../community.js";
 import type * as dashboard from "../dashboard.js";
 import type * as livekit from "../livekit.js";
+import type * as profileImages from "../profileImages.js";
 import type * as rooms from "../rooms.js";
 
 import type {
@@ -19,8 +21,10 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  community: typeof community;
   dashboard: typeof dashboard;
   livekit: typeof livekit;
+  profileImages: typeof profileImages;
   rooms: typeof rooms;
 }>;
 

@@ -26,7 +26,9 @@ export default defineSchema({
     .index("by_user", ["userId"]),
 
     userProfiles: defineTable({
-      userId: v.string(), 
+      userId: v.string(),
+      displayName: v.optional(v.string()),
+      clerkImageUrl: v.optional(v.string()),
       nativeLanguage: v.optional(v.string()),
       learningLanguages: v.array(
         v.object({
@@ -38,12 +40,13 @@ export default defineSchema({
           ),
         })
       ),
-      goal: v.optional(v.string()), 
+      goal: v.optional(v.string()),
+      bio: v.optional(v.string()),
+      hobbies: v.optional(v.array(v.string())),
       updatedAt: v.number(),
       profileImageId: v.optional(v.id("_storage")),
       bannerImageId: v.optional(v.id("_storage")),
     }).index("by_user", ["userId"]),
-
 
     connections: defineTable({
       userId: v.string(),
@@ -55,6 +58,21 @@ export default defineSchema({
     })
       .index("by_user", ["userId"])
       .index("by_user_partner", ["userId", "partnerId"]),
+
+      connectionRequests: defineTable({
+        requesterId: v.string(),
+        requesterName: v.string(),
+        recipientId: v.string(),
+        status: v.union(
+          v.literal("pending"),
+          v.literal("accepted"),
+          v.literal("declined")
+        ),
+        createdAt: v.number(),
+      })
+        .index("by_requester", ["requesterId"])
+        .index("by_recipient", ["recipientId"])
+        .index("by_pair", ["requesterId", "recipientId"]),
 
 
 
