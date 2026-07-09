@@ -15,10 +15,11 @@
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-ink-primary);
+
+  
   font-family: sans-serif;
 }
+
 
 
 
