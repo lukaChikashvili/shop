@@ -17,7 +17,7 @@ export function DashboardSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden w-60 shrink-0 flex-col gap-1 border-r border-white/50 bg-white/30 p-4 backdrop-blur-xl lg:flex">
+    <aside className="hidden w-60 shrink-0 flex-col gap-1 border-r border-white/50 bg-white/30 p-4 backdrop-blur-xl lg:flex mt-16">
       {NAV_ITEMS.map((item) => {
         const isActive = pathname === item.href;
         const Icon = item.icon;

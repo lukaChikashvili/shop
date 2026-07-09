@@ -40,6 +40,8 @@ export default defineSchema({
       ),
       goal: v.optional(v.string()), 
       updatedAt: v.number(),
+      profileImageId: v.optional(v.id("_storage")),
+      bannerImageId: v.optional(v.id("_storage")),
     }).index("by_user", ["userId"]),
 
 
