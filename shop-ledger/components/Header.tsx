@@ -1,6 +1,7 @@
 
 "use client";
 
+import { useCart } from "@/context/CartContext";
 import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
 
 import {
@@ -36,6 +37,7 @@ function LogoMark() {
 
 export function Header() {
   const { isSignedIn, isLoaded } = useUser();
+  const { cartCount } = useCart();
 
   if (!isLoaded) return null;
 
@@ -152,7 +154,7 @@ export function Header() {
                
               
                 <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#111111] px-1 text-[9px] font-bold text-white">
-                  0
+                 {cartCount}
                 </span>
                 
               </Link>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCart } from "@/context/CartContext";
-import { Check, ShoppingCart } from "lucide-react";
+import { Check, Download, ShoppingCart } from "lucide-react";
 
 
 interface ProductInfoProps {
@@ -82,41 +82,40 @@ export default function ProductInfo({
 
 <div className="mt-10 px-12 border-t border-black/10 pt-6">
   <div className="flex items-start justify-between gap-6">
+
    
     <div>
       <p className="text-[10px] uppercase tracking-[0.2em] text-black/50">
-        One-time purchase
+        One-time purchase 
       </p>
 
-      <p className="mt-2 text-3xl font-medium tracking-tight text-black">
-        ${price}
-      </p>
+   
+    
     </div>
+ 
+ 
 
     
-    <button
-      type="button"
-      disabled={added}
-      onClick={handleAddToCart}
-      className={`
-        group flex items-center gap-2 rounded-full px-6 py-3
-        text-sm font-medium transition-all duration-300
-        ${
-          added
-            ? "cursor-default bg-black/10 text-black/40"
-            : "bg-black text-white hover:scale-[1.02] hover:bg-black/85"
-        }
-      `}
-    >
-      <ShoppingCart
-        size={15}
-        className="transition-transform duration-300 group-hover:-translate-y-px"
-      />
+ 
+    <a
+  href="/downloads/liquid-glass-free.zip"
+  download="liquid-glass-free.zip"
+  className="group inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-[#222]"
+>
+  <Download
+    size={15}
+    className="transition-transform duration-300 group-hover:translate-y-0.5"
+  />
 
-      {added ? "Added to cart" : "Add to cart"}
-    </button>
+  Download Free
+</a>
+
+
+    
   </div>
 </div>
+
+
     </div>
   );
 }

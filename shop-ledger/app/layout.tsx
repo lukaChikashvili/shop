@@ -36,15 +36,17 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col">
       <ConvexClientProvider>
+      <CartProvider>
         <Header />
         <main className="h-screen">
-        <CartProvider>
+        
     {children}
-  </CartProvider>
+
       
         </main>
-      
+        </CartProvider>
         </ConvexClientProvider>
+       
         </body>
     </html>
 

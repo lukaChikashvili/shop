@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -6,7 +5,6 @@ import {
   ArrowUpRight,
   Code2,
   Sparkles,
-  Layers3,
   Zap,
 } from "lucide-react";
 
@@ -24,6 +22,7 @@ interface Product {
   category: string;
   tags: string[];
   type: ProductType;
+  image: string;
   featured?: boolean;
 }
 
@@ -33,136 +32,29 @@ const products: Product[] = [
     title: "Liquid Glass",
     description:
       "Interactive glass distortion shader for modern WebGL interfaces.",
-    price: "$19",
+    price: "FREE",
     category: "GLSL Shader",
     tags: ["GLSL", "WebGL"],
     type: "shader",
+    image: "/glass.avif",
     featured: true,
-  },
-  {
-    slug: "aurora",
-    title: "Aurora",
-    description:
-      "Procedural aurora effect with animated gradients and noise.",
-    price: "$15",
-    category: "GLSL Shader",
-    tags: ["GLSL", "Three.js"],
-    type: "shader",
-  },
-  {
-    slug: "magnetic-text",
-    title: "Magnetic Text",
-    description:
-      "Smooth magnetic typography interaction powered by GSAP.",
-    price: "$12",
-    category: "Animation",
-    tags: ["GSAP", "JS"],
-    type: "animation",
-  },
-  {
-    slug: "particle-field",
-    title: "Particle Field",
-    description:
-      "Interactive 3D particle system for React Three Fiber.",
-    price: "$24",
-    category: "Three.js",
-    tags: ["R3F", "Three.js"],
-    type: "three",
-  },
-  {
-    slug: "image-distortion",
-    title: "Image Distortion",
-    description:
-      "Mouse-driven WebGL image distortion effect.",
-    price: "$17",
-    category: "WebGL",
-    tags: ["GLSL", "R3F"],
-    type: "shader",
-  },
-  {
-    slug: "portfolio-starter",
-    title: "Portfolio Starter",
-    description:
-      "Minimal creative developer portfolio built with Next.js.",
-    price: "$29",
-    category: "Template",
-    tags: ["Next.js", "React"],
-    type: "template",
   },
 ];
 
 function ProductPreview({
-  type,
+  image,
 }: {
-  type: ProductType;
+  image: string;
 }) {
-  if (type === "shader") {
-    return (
-      <div className="relative h-full w-full overflow-hidden bg-[#0b0b0b]">
-        <div className="absolute left-[15%] top-[20%] h-32 w-32 rounded-full bg-white/[0.12] blur-3xl" />
-
-        <div className="absolute right-[10%] top-[35%] h-40 w-40 rounded-full bg-purple-400/[0.14] blur-3xl" />
-
-        <div className="absolute bottom-[5%] left-[40%] h-32 w-32 rounded-full bg-blue-400/[0.12] blur-3xl" />
-
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.35)_100%)]" />
-
-        <div className="relative flex h-full items-center justify-center">
-          <div className="h-24 w-24 rounded-full border border-white/20 bg-white/[0.06] shadow-[0_0_60px_rgba(255,255,255,0.12)] backdrop-blur-xl transition-transform duration-700 group-hover:scale-110" />
-        </div>
-
-        <span className="absolute bottom-3 left-4 text-[9px] font-medium uppercase tracking-[0.18em] text-white/35">
-          Interactive Shader
-        </span>
-      </div>
-    );
-  }
-
-  if (type === "animation") {
-    return (
-      <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#f1f1ef]">
-        <span className="text-5xl font-black tracking-[-0.08em] text-[#111] transition-transform duration-500 group-hover:scale-105">
-          TYPE
-        </span>
-
-        <div className="absolute inset-x-0 bottom-3 text-center text-[9px] font-medium uppercase tracking-[0.18em] text-black/30">
-          GSAP Animation
-        </div>
-      </div>
-    );
-  }
-
-  if (type === "three") {
-    return (
-      <div className="relative h-full w-full overflow-hidden bg-[#080808]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:16px_16px]" />
-
-        <div className="relative flex h-full items-center justify-center">
-          <div className="h-24 w-24 rounded-full border border-white/20 bg-white/[0.04] shadow-[0_0_70px_rgba(255,255,255,0.08)] transition-transform duration-700 group-hover:rotate-12 group-hover:scale-110" />
-        </div>
-
-        <span className="absolute bottom-3 left-4 text-[9px] font-medium uppercase tracking-[0.18em] text-white/35">
-          React Three Fiber
-        </span>
-      </div>
-    );
-  }
-
   return (
-    <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#e9e9e7]">
-      <div className="absolute inset-5 rounded-xl border border-black/10 bg-white shadow-xl transition-transform duration-500 group-hover:-translate-y-1">
-        <div className="border-b border-black/10 p-3">
-          <div className="h-1.5 w-16 rounded-full bg-black/10" />
-        </div>
+    <div className="relative h-full w-full overflow-hidden bg-black">
+      <img
+        src={image}
+        alt=""
+        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+      />
 
-        <div className="flex h-full items-center justify-center">
-          <div className="h-12 w-24 rounded-md bg-black/[0.04]" />
-        </div>
-      </div>
-
-      <span className="absolute bottom-3 left-4 text-[9px] font-medium uppercase tracking-[0.18em] text-black/30">
-        Next.js Template
-      </span>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
     </div>
   );
 }
@@ -170,7 +62,7 @@ function ProductPreview({
 export default function ProductsPage() {
   return (
     <main className="min-h-screen bg-[#f8f8f7] text-[#111]">
-      
+      {/* HERO */}
       <section className="border-b border-black/[0.06]">
         <div className="mx-auto max-w-7xl px-6 pb-14 pt-20 md:px-10 md:pt-24">
           <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
@@ -182,7 +74,10 @@ export default function ProductsPage() {
 
               <h1 className="max-w-3xl text-5xl font-semibold tracking-[-0.06em] md:text-6xl">
                 Digital tools for
-                <span className="text-[#999]"> creative developers.</span>
+                <span className="text-[#999]">
+                  {" "}
+                  creative developers.
+                </span>
               </h1>
 
               <p className="mt-5 max-w-xl text-[15px] leading-7 text-[#777]">
@@ -200,25 +95,40 @@ export default function ProductsPage() {
             </div>
           </div>
 
-          
+          {/* FILTERS */}
           <div className="mt-10 flex flex-wrap gap-2">
-            <button className="rounded-full bg-[#111] px-4 py-2 text-xs font-medium text-white">
+            <button
+              type="button"
+              className="rounded-full bg-[#111] px-4 py-2 text-xs font-medium text-white"
+            >
               All
             </button>
 
-            <button className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-medium text-[#666] transition hover:border-black/20 hover:text-[#111]">
+            <button
+              type="button"
+              className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-medium text-[#666] transition hover:border-black/20 hover:text-[#111]"
+            >
               Shaders
             </button>
 
-            <button className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-medium text-[#666] transition hover:border-black/20 hover:text-[#111]">
+            <button
+              type="button"
+              className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-medium text-[#666] transition hover:border-black/20 hover:text-[#111]"
+            >
               Animations
             </button>
 
-            <button className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-medium text-[#666] transition hover:border-black/20 hover:text-[#111]">
+            <button
+              type="button"
+              className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-medium text-[#666] transition hover:border-black/20 hover:text-[#111]"
+            >
               Three.js
             </button>
 
-            <button className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-medium text-[#666] transition hover:border-black/20 hover:text-[#111]">
+            <button
+              type="button"
+              className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-medium text-[#666] transition hover:border-black/20 hover:text-[#111]"
+            >
               Templates
             </button>
 
@@ -233,7 +143,7 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      
+      {/* PRODUCTS */}
       <section className="mx-auto max-w-7xl px-6 py-12 md:px-10 md:py-16">
         <div className="grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
@@ -242,24 +152,22 @@ export default function ProductsPage() {
               href={`/products/${product.slug}`}
               className="group"
             >
-             
+              {/* PRODUCT IMAGE */}
               <div className="relative aspect-[1.35/1] overflow-hidden rounded-2xl border border-black/[0.07] bg-white shadow-[0_5px_30px_-20px_rgba(0,0,0,0.25)] transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-[0_20px_45px_-25px_rgba(0,0,0,0.35)]">
-                <ProductPreview type={product.type} />
+                <ProductPreview image={product.image} />
 
-               
                 {product.featured && (
                   <div className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-[#111] shadow-sm backdrop-blur">
                     Featured
                   </div>
                 )}
 
-                
                 <div className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#111] opacity-0 shadow-sm backdrop-blur transition-all duration-300 group-hover:opacity-100">
                   <ArrowUpRight size={14} />
                 </div>
               </div>
 
-            
+              {/* PRODUCT INFO */}
               <div className="px-1 pt-4">
                 <div className="flex items-start justify-between gap-4">
                   <div>
@@ -297,6 +205,7 @@ export default function ProductsPage() {
         </div>
       </section>
 
+      {/* FOOTER CTA */}
       <section className="border-t border-black/[0.06]">
         <div className="mx-auto flex max-w-7xl flex-col gap-5 px-6 py-14 md:flex-row md:items-center md:justify-between md:px-10">
           <div>
@@ -322,4 +231,3 @@ export default function ProductsPage() {
     </main>
   );
 }
-
