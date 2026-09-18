@@ -7,23 +7,17 @@ import LiquidGlass from "@/components/LiquidGlass";
 
 export default function LiquidGlassPage() {
 
-  const [image, setImage] =
-    useState("/image.jpg");
+  const [image, setImage] = useState("/image.jpg");
 
-  const [strength, setStrength] =
-    useState(1);
+  const [strength, setStrength] = useState(1);
 
-  const [speed, setSpeed] =
-    useState(0.7);
+  const [speed, setSpeed] = useState(0.7);
 
-  const [noise, setNoise] =
-    useState(1);
+  const [noise, setNoise] = useState(1);
 
-  const [mouseInfluence, setMouseInfluence] =
-    useState(1);
+  const [mouseInfluence, setMouseInfluence] = useState(1);
 
-  const [chromaticAberration, setChromaticAberration] =
-    useState(0.012);
+  const [chromaticAberration, setChromaticAberration] = useState(0.012);
 
   return (
     <main className="min-h-screen  text-white">
@@ -188,7 +182,7 @@ function Control({
 }: ControlProps) {
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 ">
 
       <div className="mb-2 flex justify-between">
 
@@ -213,7 +207,7 @@ function Control({
             Number(event.target.value)
           )
         }
-        className="w-full"
+        className="dev-slider w-full "
       />
 
     </div>
