@@ -146,7 +146,7 @@ export default function LiquidGlass({
 
   return (
     <mesh>
-      <planeGeometry args={[1000, 500]} />
+      <planeGeometry args={[900, 500]} />
 
       <shaderMaterial
         ref={materialRef}

@@ -4,10 +4,11 @@ import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 
 import LiquidGlass from "@/components/LiquidGlass";
+import ProductInfo from "../ProductInfo";
 
 export default function LiquidGlassPage() {
 
-  const [image, setImage] = useState("/image.jpg");
+  const [image, setImage] = useState("/glass.avif");
 
   const [strength, setStrength] = useState(1);
 
@@ -26,7 +27,7 @@ export default function LiquidGlassPage() {
 
         
 
-        <div className="relative min-h-[600px]">
+        <div className="relative min-h-[600px] -mt-24">
 
           <Canvas
             orthographic
@@ -158,6 +159,23 @@ export default function LiquidGlassPage() {
 
       </section>
 
+      <ProductInfo
+  id="liquid-glass"
+  name="Liquid Glass Distortion"
+  category="GLSL Shader"
+  price={19}
+  image="/glass.avif"
+  description="A fluid GLSL distortion shader for creating immersive, interactive image effects. Built for Three.js and React Three Fiber with real-time mouse interaction, animated noise, and chromatic aberration."
+  features={[
+    "GLSL source code",
+    "Three.js implementation",
+    "React Three Fiber component",
+    "TypeScript support",
+    "Presets and documentation",
+    "Commercial license",
+  ]}
+/>
+
     </main>
   );
 }
@@ -209,6 +227,9 @@ function Control({
         }
         className="dev-slider w-full "
       />
+
+
+
 
     </div>
   );

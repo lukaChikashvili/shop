@@ -4,6 +4,7 @@ import "./globals.css";
 import ConvexClientProvider from "./ConvexClientProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Header } from "@/components/Header";
+import { CartProvider } from "@/context/CartContext";
 
 
 
@@ -37,7 +38,10 @@ export default function RootLayout({
       <ConvexClientProvider>
         <Header />
         <main className="h-screen">
-        {children}
+        <CartProvider>
+    {children}
+  </CartProvider>
+      
         </main>
       
         </ConvexClientProvider>
