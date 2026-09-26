@@ -97,7 +97,7 @@ const Experience = () => {
     wasMoving.current = moving;
 
   
-    const speed = 3;
+    const speed = 6;
 
     if (forward) {
       character.translateZ(

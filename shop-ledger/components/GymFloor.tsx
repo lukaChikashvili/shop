@@ -9,7 +9,7 @@ const GymFloor = () => {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
 
-  texture.repeat.set(12, 12);
+  texture.repeat.set(20, 20);
 
   return (
     <mesh
@@ -17,7 +17,7 @@ const GymFloor = () => {
       position={[0, 0, 0]}
       receiveShadow
     >
-      <planeGeometry args={[100, 100]} />
+      <planeGeometry args={[150, 150]} />
 
       <meshStandardMaterial
         map={texture}

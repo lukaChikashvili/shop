@@ -1,29 +1,37 @@
 "use client";
 
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
+import { Ceiling } from "./Ceiling";
+
 
 const LockerRoom = () => {
   const wallMaterial = new THREE.MeshStandardMaterial({
-    color: "#24282A",
+    color: "#FF7F50",
     roughness: 0.85,
     metalness: 0.05,
   });
 
-  const wallHeight = 7;
-  const roomWidth = 20;
-  const roomDepth = 16;
-  const wallThickness = 0.3;
+  // poster
+  const poster = useTexture('/poster.jpg');
+  const poster2 = useTexture('/poster2.jpg');
+
+
+  const wallHeight = 10;
+  const roomWidth =40;
+  const roomDepth = 26;
+  const wallThickness = 0.7;
 
   const locker = useGLTF("/locker.glb");
+  const chair = useGLTF('/chair.glb');
 
  
   const lockerPositions = Array.from(
-    { length: 8 },
+    { length: 18},
     (_, i) => ({
-      x: -8 + i * 2.3,
+      x: -18 + i * 2.2,
       y: 0,
-      z: -7,
+      z: -13,
     })
   );
 
@@ -105,7 +113,7 @@ const LockerRoom = () => {
 
       <mesh
         position={[
-          -6,
+          -10,
           wallHeight / 2,
           roomDepth / 2,
         ]}
@@ -115,7 +123,7 @@ const LockerRoom = () => {
       >
         <boxGeometry
           args={[
-            8,
+            20,
             wallHeight,
             wallThickness,
           ]}
@@ -127,7 +135,7 @@ const LockerRoom = () => {
 
       <mesh
         position={[
-          6,
+          15,
           wallHeight / 2,
           roomDepth / 2,
         ]}
@@ -137,7 +145,7 @@ const LockerRoom = () => {
       >
         <boxGeometry
           args={[
-            8,
+            20,
             wallHeight,
             wallThickness,
           ]}
@@ -150,7 +158,7 @@ const LockerRoom = () => {
       <mesh
         position={[
           0,
-          6.2,
+          8.2,
           roomDepth / 2,
         ]}
         material={wallMaterial}
@@ -159,8 +167,8 @@ const LockerRoom = () => {
       >
         <boxGeometry
           args={[
-            4,
-            1.6,
+            20,
+            4.6,
             wallThickness,
           ]}
         />
@@ -173,7 +181,8 @@ const LockerRoom = () => {
         <primitive
           key={index}
           object={locker.scene.clone(true)}
-          scale={3}
+          scale={5.1}
+          
           position={[
             position.x,
             position.y,
@@ -182,7 +191,37 @@ const LockerRoom = () => {
         />
       ))}
 
+<group>
+  <primitive
+    object={chair.scene}
+    scale={0.15}
+    position={[-3, 0, 0]}
+    rotation={[0, 1.6, 0]}
+  />
+
+  <primitive
+    object={chair.scene.clone(true)}
+    scale={0.15}
+    position={[6, 0, 0]}
+    rotation={[0, 1.6, 0]}
+  />
+</group>
+
+     <mesh rotation = {[0, 1.5, 0]} position = {[-19, 5, -5]}>
+        <boxGeometry args = {[8, 5, 0.1]} />
+        <meshStandardMaterial map = {poster} />
+     </mesh>
+
+     <mesh rotation = {[0, 1.5, 0]} position = {[-19, 5, 5]}>
+        <boxGeometry args = {[8, 5, 0.1]} />
+        <meshStandardMaterial map = {poster2} />
+     </mesh>
+
+     <Ceiling />
+
     </group>
+
+    
   );
 };
 
