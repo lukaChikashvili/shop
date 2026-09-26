@@ -5,6 +5,8 @@ import { Canvas } from '@react-three/fiber'
 import React from 'react'
 import { KeyboardControls, OrbitControls } from '@react-three/drei'
 import { Physics } from '@react-three/rapier'
+import Gym from '@/components/Gym'
+import GymFloor from '@/components/GymFloor'
 
 const page = () => {
 
@@ -27,7 +29,7 @@ const page = () => {
           keys: ['ArrowRight', 'd', 'D'],
         },
       ];
-      
+
 
   return (
     <div className='h-screen'> 
@@ -38,6 +40,8 @@ const page = () => {
             <OrbitControls />
      <Lights />
      <Experience />
+     <Gym />
+     <GymFloor />
      </Physics>
 
       </Canvas>
