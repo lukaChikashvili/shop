@@ -24,6 +24,10 @@ const LockerRoom = () => {
 
   const locker = useGLTF("/locker.glb");
   const chair = useGLTF('/chair.glb');
+  const clock = useGLTF('/clock.glb');
+  const door  = useGLTF('/door.glb');
+
+
 
  
   const lockerPositions = Array.from(
@@ -123,7 +127,7 @@ const LockerRoom = () => {
       >
         <boxGeometry
           args={[
-            20,
+            21.9,
             wallHeight,
             wallThickness,
           ]}
@@ -145,7 +149,7 @@ const LockerRoom = () => {
       >
         <boxGeometry
           args={[
-            20,
+            21.9,
             wallHeight,
             wallThickness,
           ]}
@@ -168,7 +172,7 @@ const LockerRoom = () => {
         <boxGeometry
           args={[
             20,
-            4.6,
+            5.6,
             wallThickness,
           ]}
         />
@@ -219,6 +223,8 @@ const LockerRoom = () => {
 
      <Ceiling />
 
+     <primitive object={clock.scene} rotation = {[0, 3, 0]} scale = {0.5} position = {[2, 7, 12.5]} />
+     <primitive object={door.scene } scale = {3} position = {[2.5, 2.5, 13]} />
     </group>
 
     
