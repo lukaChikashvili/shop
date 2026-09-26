@@ -3,18 +3,45 @@ import Experience from '@/components/Experience'
 import Lights from '@/components/Lights'
 import { Canvas } from '@react-three/fiber'
 import React from 'react'
-import { OrbitControls } from '@react-three/drei'
+import { KeyboardControls, OrbitControls } from '@react-three/drei'
+import { Physics } from '@react-three/rapier'
 
 const page = () => {
+
+
+    const controls = [
+        {
+          name: 'forward',
+          keys: ['ArrowUp', 'w', 'W'],
+        },
+        {
+          name: 'backward',
+          keys: ['ArrowDown', 's', 'S'],
+        },
+        {
+          name: 'left',
+          keys: ['ArrowLeft', 'a', 'A'],
+        },
+        {
+          name: 'right',
+          keys: ['ArrowRight', 'd', 'D'],
+        },
+      ];
+      
+
   return (
     <div className='h-screen'> 
+    <KeyboardControls map = {controls}>
            <Canvas>
+           <Physics>
+       
             <OrbitControls />
      <Lights />
      <Experience />
+     </Physics>
 
       </Canvas>
-    
+      </KeyboardControls>
     </div>
   )
 }
