@@ -3,7 +3,7 @@ import React from "react";
 const Lights = () => {
   return (
 <>
-  <ambientLight intensity={2} />
+  <ambientLight intensity={1.2} />
 
   <directionalLight
     position={[5,5,5]}

@@ -7,6 +7,8 @@ import { KeyboardControls, OrbitControls } from '@react-three/drei'
 import { Physics } from '@react-three/rapier'
 import Gym from '@/components/Gym'
 import GymFloor from '@/components/GymFloor'
+import LockerRoom from '@/components/LockerRoom'
+
 
 const page = () => {
 
@@ -34,7 +36,7 @@ const page = () => {
   return (
     <div className='h-screen'> 
     <KeyboardControls map = {controls}>
-           <Canvas>
+           <Canvas >
            <Physics>
        
             <OrbitControls />
@@ -42,6 +44,7 @@ const page = () => {
      <Experience />
      <Gym />
      <GymFloor />
+     <LockerRoom />
      </Physics>
 
       </Canvas>
